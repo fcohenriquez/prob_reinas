@@ -16,10 +16,7 @@ def gen_reina (n_c):
     '''generando  la lista de reina
         se debe entregar el numero de columnas
     '''
-    reina=[]
-    for i in range(n_c):
-        reina.append(i+1)
-    return(reina)
+    reina=list(range(1,n_c+1)
 
 def eval_filas(n_c,com_r,c_reina):
     '''
