@@ -9,8 +9,19 @@ Created on Sat Sep 21 21:21:56 2019
 import numpy as np
 import itertools
 
-# Definiendo las funciones
 
+def checkIfDuplicates_2(listOfElems):
+    ''' Check if given list contains any duplicates
+    esta prueba usa la propiedad de que el set no tiene elementos duplicados
+    en este algoritmo se detiene la evaluacion cuando se encuentra algun elemento duplicado. Su complejidad es a lo sumo n*ln(n)
+    '''    
+    setOfElems = set()
+    for elem in listOfElems:
+        if elem in setOfElems:
+            return True
+        else:
+            setOfElems.add(elem)         
+    return False
 
 def gen_reina (n_c):
     '''generando  la lista de reina
@@ -25,24 +36,16 @@ def eval_filas(n_c,com_r,c_reina):
     '''
     filas_cumplen=[]
     for cr in com_r:
+        '''
+        lo que se evalua si existe alguna suma de fila y columna de una reina es igual a otra
+        '''
         fila_reina=list(cr)
         #esto genera los valores que se debe evaluar
-        prueba_i=[]
-        prueba_d=[]
-        for i in range(n_c):
-            prueba_i.append(c_reina[i]+fila_reina[i])
-            prueba_d.append(c_reina[i]-fila_reina[i])
-        # aca se realiza la evaluacion
-        cumple=True
-        nf=0
-        while cumple and nf<=(n_c-1):
-            for i in range(nf+1,n_c):
-                if (prueba_i[nf]-prueba_i[i]==0) or (prueba_d[nf]-prueba_d[i]==0):
-                    cumple=False
-                    break
-            nf+=1
-        # se almacena si la combinacion cumple las condiciones
-        if cumple:
+        prueba_i=np.add(np.array(c_reina), np.array(fila_reina))
+        prueba_d=np.add(np.array(c_reina), -np.array(fila_reina))
+
+        # aca se realiza la evaluacion y se almacena si la combinacion cumple las condiciones
+        if not (checkIfDuplicates_2(prueba_i) or checkIfDuplicates_2(prueba_d)):
                 filas_cumplen.append(fila_reina)
     
     if len(filas_cumplen)<=10:
@@ -67,9 +70,14 @@ def busca_reinas(n_c):
     resultado=eval_filas(n_c,comb_reina, reina)
     return(resultado)
 
-filas_cumplen=busca_reinas(8)
+filas_cumplen=busca_reinas(4)
 
+'''
+n_c=11
+print(len(list(itertools.permutations(gen_reina(n_c), r=n_c))))
+[4, 40, 92, 352, 724, 2680]
 
+'''
 
 
 
